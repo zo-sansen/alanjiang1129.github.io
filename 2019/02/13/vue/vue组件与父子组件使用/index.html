@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8">
+    <meta name="baidu-site-verification" content="dIcXMeY8Ya">
+    
+    <title>vue组件与父子组件使用 | alanJiang</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta name="keywords" content="alanJiang, 前端, Web, 江鹏, 后端开发, app, 小程序">
+    <meta name="description" content="alanJiang个人前端小站">
+
+    
+    <link rel="alternative" href="/atom.xml" title="alanJiang" type="application/atom+xml">
+    
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <!--[if lt IE 9]>
+    <script src="/js/html5.js"></script>
+    <![endif]-->
+    
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?fd459238242776d173cdc64918fb32f2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</head>
+</html>
+<body class="home">
+    <!--[if lt IE 9]>
+    <div class="browsehappy">
+        当前网页 <strong>不支持</strong>
+        你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>.
+    </div>
+    <![endif]-->
+
+    <!-- 博客头部 -->
+    <header class="header">
+    <section class="container header-main">
+        <div class="logo">
+            <a href="/">
+                <div class="cover">
+                    <span class="name">alanJiang</span>
+                    <span class="description">alanJiang的个人博客网站</span>
+                </div>
+            </a>
+        </div>
+        <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
+        <ul class="menu hidden" id="JELON__menu">
+            
+            <li rel="/2019/02/13/vue/vue组件与父子组件使用/index.html" class="item ">
+                <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
+            </li>
+            
+            <li rel="/2019/02/13/vue/vue组件与父子组件使用/index.html" class="item ">
+                <a href="/lab/" title="实验室" class="icon-lab">&nbsp;实验室</a>
+            </li>
+            
+            <li rel="/2019/02/13/vue/vue组件与父子组件使用/index.html" class="item ">
+                <a href="/cml/" title="滴滴chameleon" class="icon-lab">&nbsp;滴滴chameleon</a>
+            </li>
+            
+            <li rel="/2019/02/13/vue/vue组件与父子组件使用/index.html" class="item ">
+                <a href="/about/" title="关于我" class="icon-about">&nbsp;关于我</a>
+            </li>
+            
+            <li rel="/2019/02/13/vue/vue组件与父子组件使用/index.html" class="item ">
+                <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
+            </li>
+            
+        </ul>
+        <div class="profile clearfix">
+            <div class="feeds fl">
+                
+                
+                <p class="links">
+                    
+                        <a href="https://github.com/alanjiang1129" target="_blank">Github</a>
+                        |
+                    
+                        <a href="https://www.jianshu.com/u/23da71227054" target="_blank">简书</a>
+                        
+                    
+                </p>
+                <p class="sns">
+                    
+                        <a href="https://weibo.com/5533052073/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo" class="sinaweibo" target="_blank"><b>■</b> 新浪微博</a>
+                    
+                        <a href="/qq" class="qq" target="_blank"><b>■</b> QQ</a>
+                    
+                        <a href="https://i.csdn.net/#/uc/profile" class="csdn" target="_blank"><b>■</b> CSDN</a>
+                    
+                    <!--<a href="javascript: void(0);" class="wechat">-->
+                        <!--<b>■</b>-->
+                        <!--公众号-->
+                        <!--<span class="popover">-->
+                            <!--<img src="/img/wechat_mp.jpg" width="120" height="120" alt="我的微信订阅号">-->
+                            <!--<i class="arrow"></i>-->
+                        <!--</span>-->
+                    <!--</a>-->
+                </p>
+                
+            </div>
+            <div class="avatar fr">
+                <img src="/assets/tx.jpg" alt="avatar" title="Jelon">
+            </div>
+        </div>
+    </section>
+</header>
+
+
+    <!-- 博客正文 -->
+    <div class="container body clearfix">
+        <section class="content">
+            <div class="content-main widget">
+                <!-- 文章页 -->
+<!-- 文章 -->
+<article class="post article">
+    <header class="text-center">
+        <h3 class="post-title"><span>vue组件与父子组件使用</span></h3>
+    </header>
+    <p class="post-meta text-center">
+        alanJiang 发表于
+        <time datetime="2019-02-12T16:00:00.000Z">2019-02-13</time>
+    </p>
+    <div class="post-content">
+        <h1 id="component-组件"><a href="#component-组件" class="headerlink" title="component(组件)"></a>component(组件)</h1><h2 id="直接写法"><a href="#直接写法" class="headerlink" title="直接写法"></a>直接写法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(&apos;blog-post&apos;, &#123;</span><br><span class="line">  // 在 JavaScript 中是 camelCase 的</span><br><span class="line">  props: [&apos;postTitle&apos;],</span><br><span class="line">  template: &apos;&lt;h3&gt;&#123;&#123; postTitle &#125;&#125;&lt;/h3&gt;&apos;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="组件注册"><a href="#组件注册" class="headerlink" title="组件注册"></a>组件注册</h2><h3 id="组件名"><a href="#组件名" class="headerlink" title="组件名"></a>组件名</h3><p>定义组件名的方式有两种</p>
+<h4 id="使用-kebab-case"><a href="#使用-kebab-case" class="headerlink" title="使用 kebab-case"></a>使用 kebab-case</h4><blockquote>
+<p>  Vue.component(‘my-component-name’, { /<em> … </em>/ })</p>
+</blockquote>
+<h4 id="使用-PascalCase"><a href="#使用-PascalCase" class="headerlink" title="使用 PascalCase"></a>使用 PascalCase</h4><blockquote>
+<p>  Vue.component(‘MyComponentName’, { /<em> … </em>/ })</p>
+</blockquote>
+<p style="color:red">直接在 DOM (即非字符串的模板) 中使用时只有 kebab-case 是有效的</p>
+
+<h3 id="全局注册"><a href="#全局注册" class="headerlink" title="全局注册"></a>全局注册</h3><figure class="highlight plain"><figcaption><span>&#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  // ... 选项 ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p style="color:red">这些组件是全局注册的。也就是说它们在注册之后可以用在任何新创建的 Vue 根实例</p>
+
+<h3 id="局部注册"><a href="#局部注册" class="headerlink" title="局部注册"></a>局部注册</h3><p>普通注册<br><figure class="highlight plain"><figcaption><span>Vue(&#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  el: &apos;#app&apos;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    &apos;component-a&apos;: ComponentA,</span><br><span class="line">    &apos;component-b&apos;: ComponentB</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>组件内组件注册<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var ComponentA = &#123; /* ... */ &#125;</span><br><span class="line"></span><br><span class="line">var ComponentB = &#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    &apos;component-a&apos;: ComponentA</span><br><span class="line">  &#125;,</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="模块系统"><a href="#模块系统" class="headerlink" title="模块系统"></a>模块系统</h3><h4 id="在模块系统中局部注册"><a href="#在模块系统中局部注册" class="headerlink" title="在模块系统中局部注册"></a>在模块系统中局部注册</h4><p>假设的 ComponentB.js 或 ComponentB.vue 文件中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import ComponentA from &apos;./ComponentA&apos;</span><br><span class="line">import ComponentC from &apos;./ComponentC&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    ComponentA,</span><br><span class="line">    ComponentC</span><br><span class="line">  &#125;,</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>现在 ComponentA 和 ComponentC 都可以在 ComponentB 的模板中使用了。</p>
+<h4 id="基础组件的自动化全局注册"><a href="#基础组件的自动化全局注册" class="headerlink" title="基础组件的自动化全局注册"></a>基础组件的自动化全局注册</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import BaseButton from &apos;./BaseButton.vue&apos;</span><br><span class="line">import BaseIcon from &apos;./BaseIcon.vue&apos;</span><br><span class="line">import BaseInput from &apos;./BaseInput.vue&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    BaseButton,</span><br><span class="line">    BaseIcon,</span><br><span class="line">    BaseInput</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以使用webpack，<code>require.context</code>只全局注册这些非常通用的基础组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import upperFirst from &apos;lodash/upperFirst&apos;</span><br><span class="line">import camelCase from &apos;lodash/camelCase&apos;</span><br><span class="line"></span><br><span class="line">const requireComponent = require.context(</span><br><span class="line">  // 其组件目录的相对路径</span><br><span class="line">  &apos;./components&apos;,</span><br><span class="line">  // 是否查询其子目录</span><br><span class="line">  false,</span><br><span class="line">  // 匹配基础组件文件名的正则表达式</span><br><span class="line">  /Base[A-Z]\w+\.(vue|js)$/</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">requireComponent.keys().forEach(fileName =&gt; &#123;</span><br><span class="line">  // 获取组件配置</span><br><span class="line">  const componentConfig = requireComponent(fileName)</span><br><span class="line"></span><br><span class="line">  // 获取组件的 PascalCase 命名</span><br><span class="line">  const componentName = upperFirst(</span><br><span class="line">    camelCase(</span><br><span class="line">      // 剥去文件名开头的 `./` 和结尾的扩展名</span><br><span class="line">      fileName.replace(/^\.\/(.*)\.\w+$/, &apos;$1&apos;)</span><br><span class="line">    )</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  // 全局注册组件</span><br><span class="line">  Vue.component(</span><br><span class="line">    componentName,</span><br><span class="line">    // 如果这个组件选项是通过 `export default` 导出的，</span><br><span class="line">    // 那么就会优先使用 `.default`，</span><br><span class="line">    // 否则回退到使用模块的根。</span><br><span class="line">    componentConfig.default || componentConfig</span><br><span class="line">  )</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p style="color:red">记住全局注册的行为必须在根 Vue 实例 (通过 new Vue) 创建之前发生。这里有一个真实项目情景下的示例。</p>
+
+<p><a href="www.baidu.com">require.context详解</a></p>
+<h1 id="子组件使用父组件"><a href="#子组件使用父组件" class="headerlink" title="子组件使用父组件"></a>子组件使用父组件</h1><p>关键字</p>
+<h2 id="parent："><a href="#parent：" class="headerlink" title="$parent："></a>$parent：</h2><h2 id="prop：单向数据流传递，向下传递，"><a href="#prop：单向数据流传递，向下传递，" class="headerlink" title="prop：单向数据流传递，向下传递，"></a>prop：单向数据流传递，向下传递，</h2><h3 id="子组件定义"><a href="#子组件定义" class="headerlink" title="子组件定义"></a>子组件定义</h3><p><code>props: [&#39;initialCounter&#39;],</code></p>
+<h3 id="父组件引用"><a href="#父组件引用" class="headerlink" title="父组件引用"></a>父组件引用</h3><blockquote>
+<p>  单个传<br>  <blog-post v-bind:initialcounter="post.author"></blog-post></p>
+</blockquote>
+<blockquote>
+<p>  传入一个对象的所有属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">post: &#123;</span><br><span class="line">  id: 1,</span><br><span class="line">  title: &apos;My Journey with Vue&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="模板使用方式："><a href="#模板使用方式：" class="headerlink" title="模板使用方式："></a>模板使用方式：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;blog-post v-bind=&quot;post&quot;&gt;&lt;/blog-post&gt;</span><br><span class="line">等于</span><br><span class="line">&lt;blog-post</span><br><span class="line">  v-bind:id=&quot;post.id&quot;</span><br><span class="line">  v-bind:title=&quot;post.title&quot;</span><br><span class="line">&gt;&lt;/blog-post&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="Prop-验证"><a href="#Prop-验证" class="headerlink" title="Prop 验证"></a>Prop 验证</h3><figure class="highlight plain"><figcaption><span>&#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">  props: &#123;</span><br><span class="line">    // 基础的类型检查 (`null` 匹配任何类型)</span><br><span class="line">    propA: Number,</span><br><span class="line">    // 多个可能的类型</span><br><span class="line">    propB: [String, Number],</span><br><span class="line">    // 必填的字符串</span><br><span class="line">    propC: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      required: true</span><br><span class="line">    &#125;,</span><br><span class="line">    // 带有默认值的数字</span><br><span class="line">    propD: &#123;</span><br><span class="line">      type: Number,</span><br><span class="line">      default: 100</span><br><span class="line">    &#125;,</span><br><span class="line">    // 带有默认值的对象</span><br><span class="line">    propE: &#123;</span><br><span class="line">      type: Object,</span><br><span class="line">      // 对象或数组默认值必须从一个工厂函数获取</span><br><span class="line">      default: function () &#123;</span><br><span class="line">        return &#123; message: &apos;hello&apos; &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 自定义验证函数</span><br><span class="line">    propF: &#123;</span><br><span class="line">      validator: function (value) &#123;</span><br><span class="line">        // 这个值必须匹配下列字符串中的一个</span><br><span class="line">        return [&apos;success&apos;, &apos;warning&apos;, &apos;danger&apos;].indexOf(value) !== -1</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="type值"><a href="#type值" class="headerlink" title="type值"></a>type值</h4><ul>
+<li>String</li>
+<li>Number</li>
+<li>Boolean</li>
+<li>Array</li>
+<li>Object</li>
+<li>Date</li>
+<li>Function</li>
+<li>Symbol</li>
+</ul>
+<h4 id="构造函数事例"><a href="#构造函数事例" class="headerlink" title="构造函数事例"></a>构造函数事例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function Person (firstName, lastName) &#123;</span><br><span class="line">  this.firstName = firstName</span><br><span class="line">  this.lastName = lastName</span><br><span class="line">&#125;</span><br><span class="line">Vue.component(&apos;blog-post&apos;, &#123;</span><br><span class="line">  props: &#123;</span><br><span class="line">    author: Person</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="事件传递"><a href="#事件传递" class="headerlink" title="事件传递"></a>事件传递</h2><p>父组件<br><code>&lt;my-component v-on:my-event=&quot;doSomething&quot;&gt;&lt;/my-component&gt;</code><br>子组件调用方式<br><code>this.$emit(&#39;myEvent&#39;)</code></p>
+<h2 id="依赖注入方式"><a href="#依赖注入方式" class="headerlink" title="依赖注入方式"></a>依赖注入方式</h2><h3 id="provide：允许我们指定我们想要提供给后代组件的数据-方法"><a href="#provide：允许我们指定我们想要提供给后代组件的数据-方法" class="headerlink" title="provide：允许我们指定我们想要提供给后代组件的数据/方法"></a>provide：允许我们指定我们想要提供给后代组件的数据/方法</h3><pre><code>例子：
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">provide: function () &#123;</span><br><span class="line">             return &#123;</span><br><span class="line">               getMap: this.getMap</span><br><span class="line">             &#125;</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="inject：来接收指定的我们想要添加在这个实例上的属性"><a href="#inject：来接收指定的我们想要添加在这个实例上的属性" class="headerlink" title="inject：来接收指定的我们想要添加在这个实例上的属性"></a>inject：来接收指定的我们想要添加在这个实例上的属性</h3><p><code>inject: [&#39;getMap&#39;]</code></p>
+
+    </div>
+    <p class="post-meta">
+        <span class="post-cat">分类：
+            <a class="cat-link" href="/categories/VUE/">VUE</a>
+        </span>
+        <span class="post-tags">
+            标签：
+            
+    
+        <a href="/tags/VUE/" title="VUE">VUE</a>
+    
+
+        </span>
+    </p>
+</article>
+<!-- 分享按钮 -->
+
+  <div class="article-share clearfix text-center">
+    <div class="share-area">
+      <span class="share-txt">分享到：</span>
+      <a href="javascript: window.open('http://service.weibo.com/share/share.php?url=' + encodeURIComponent(location.href) + '&title=' + document.title + '&language=zh_cn');" class="share-icon weibo"></a>
+      <a href="javascript: alert('请复制链接到微信并发送');" class="share-icon wechat"></a>
+      <a href="javascript: window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + encodeURIComponent(location.href) + '&title=' + document.title);" class="share-icon qqzone"></a>
+      <a href="javascript: window.open('http://connect.qq.com/widget/shareqq/index.html?url=' + encodeURIComponent(location.href) + '&desc=Jelon个人博客&title=' + document.title + '&callback=' + encodeURIComponent(location.href));" class="share-icon qq"></a>
+      <a href="javascript: window.open('http://shuo.douban.com/!service/share?href=' + encodeURIComponent(location.href) + '&name=' + document.title + '&text=' + document.title);" class="share-icon douban"></a>
+    </div>
+  </div>
+
+
+<!-- 上一篇/下一篇 -->
+
+<div class="article-nav clearfix">
+    
+    <span class="prev fl">
+        上一篇<br>
+        <a href="/2019/02/13/test/">
+            
+                空白博客
+            
+        </a>
+    </span>
+    
+
+    
+    <span class="next fr">
+        下一篇<br>
+        <a href="/2019/02/07/vue/vue路由跳转/">
+            
+                vue路由跳转
+            
+        </a>
+    </span>
+    
+</div>
+
+<!-- 文章评论 -->
+
+  <script src="/js/comment.js"></script>
+  <div id="comments" class="comment">
+    <!--
+    <div class="sign-bar">
+      GitHub 已登录!
+      <span class="sign-link">登出</span>
+    </div>
+    <section class="box">
+      <div class="com-avatar"><img src="/img/jelon.jpg" alt="avatar"></div>
+      <div class="com-text">
+        <div class="main">
+          <textarea class="text-area-edited show" placeholder="欢迎评论！"></textarea>
+          <div class="text-area-preview"></div>
+        </div>
+        <div class="switch">
+          <div class="switch-item on">编辑</div>
+          <div class="switch-item">预览</div>
+        </div>
+        <div class="button">提交</div>
+      </div>
+    </section>
+    <section class="tips">注：评论支持 markdown 语法！</section>
+    <section class="list-wrap">
+      <ul class="list">
+        <li>
+          <div class="user-avatar">
+            <a href="/">
+              <img src="/img/jelon.jpg" alt="user-avatar">
+            </a>
+          </div>
+          <div class="user-comment">
+            <div class="user-comment-header">
+              <span class="post-name">张德龙</span>
+              <span class="post-time">2017年12月12日</span>
+              <span class="like liked">已赞</span>
+              <span class="like-num">2</span>
+            </div>
+            <div class="user-comment-body">333333</div>
+          </div>
+        </li>
+        <li>
+          <div class="user-avatar">
+            <a href="/">
+              <img src="/img/jelon.jpg" alt="user-avatar">
+            </a>
+          </div>
+          <div class="user-comment">
+            <div class="user-comment-header">
+              <span class="post-name">刘德华</span>
+              <span class="post-time">2017年12月12日</span>
+              <span class="like">点赞</span>
+              <span class="like-num">2</span>
+            </div>
+            <div class="user-comment-body">vvvvv</div>
+          </div>
+        </li>
+      </ul>
+      <div class="page-nav">
+        <a href="javascript: void(0);" class="item">1</a>
+        <a href="javascript: void(0);" class="item">2</a>
+        <a href="javascript: void(0);" class="item current">3</a>
+      </div>
+    </section>
+    -->
+  </div>
+  <script>
+  JELON.Comment({
+    container: 'comments',
+    label: 'vue/vue组件与父子组件使用' || '2019/02/13/vue/vue组件与父子组件使用/',
+    owner: 'alanjiang1129',
+    repo: 'jp_blog',
+    clientId: 'fc95a747f032d6f9c498',
+    clientSecret: '3fadb7a6d4d60265e5939a23e145fb860fddc7ea'
+  });
+  </script>
+
+
+            </div>
+
+        </section>
+        <!-- 侧栏部分 -->
+<aside class="sidebar">
+    <section class="widget">
+        <h3 class="widget-hd"><strong>文章分类</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+    <li>
+        <a href="/categories/个博搭建/">个博搭建</a>
+        <span class="badge">(6)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/GitHub/">GitHub</a>
+        <span class="badge">(2)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/SpringBoot/">SpringBoot</a>
+        <span class="badge">(2)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/Docker/">Docker</a>
+        <span class="badge">(1)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/开源项目/">开源项目</a>
+        <span class="badge">(1)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/学习总结/">学习总结</a>
+        <span class="badge">(1)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/Git/">Git</a>
+        <span class="badge">(1)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/VUE/">VUE</a>
+        <span class="badge">(2)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/Node/">Node</a>
+        <span class="badge">(1)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/JS/">JS</a>
+        <span class="badge">(1)</span>
+    </li>
+    
+</ul>
+    </section>
+
+    
+    <section class="widget">
+        <h3 class="widget-hd"><strong>热门标签</strong></h3>
+        <!-- 文章标签 -->
+<div class="widget-bd tag-wrap">
+  
+    <a class="tag-item" href="/tags/HEXO/" title="HEXO">HEXO (5)</a>
+  
+    <a class="tag-item" href="/tags/HEXO-GitHub个博/" title="HEXO_GitHub个博">HEXO_GitHub个博 (6)</a>
+  
+    <a class="tag-item" href="/tags/GitHub/" title="GitHub">GitHub (2)</a>
+  
+    <a class="tag-item" href="/tags/静态文件托管/" title="静态文件托管">静态文件托管 (1)</a>
+  
+    <a class="tag-item" href="/tags/SpringBoot/" title="SpringBoot">SpringBoot (2)</a>
+  
+    <a class="tag-item" href="/tags/MarkDown/" title="MarkDown">MarkDown (1)</a>
+  
+    <a class="tag-item" href="/tags/Docker/" title="Docker">Docker (1)</a>
+  
+    <a class="tag-item" href="/tags/GitLab/" title="GitLab">GitLab (1)</a>
+  
+    <a class="tag-item" href="/tags/vue/" title="vue">vue (1)</a>
+  
+    <a class="tag-item" href="/tags/java/" title="java">java (1)</a>
+  
+    <a class="tag-item" href="/tags/学习总结/" title="学习总结">学习总结 (1)</a>
+  
+    <a class="tag-item" href="/tags/Git/" title="Git">Git (1)</a>
+  
+    <a class="tag-item" href="/tags/VUE/" title="VUE">VUE (2)</a>
+  
+    <a class="tag-item" href="/tags/Yarn/" title="Yarn">Yarn (1)</a>
+  
+    <a class="tag-item" href="/tags/Node/" title="Node">Node (1)</a>
+  
+    <a class="tag-item" href="/tags/JS/" title="JS">JS (1)</a>
+  
+    <a class="tag-item" href="/tags/JS数据类型/" title="JS数据类型">JS数据类型 (1)</a>
+  
+</div>
+    </section>
+    
+
+    
+
+    
+    <!-- 友情链接 -->
+    <section class="widget">
+        <h3 class="widget-hd"><strong>友情链接</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+        <li>
+            <a href="http://admin.yd-park.com" target="_blank" title="易的官网">易的官网</a>
+        </li>
+    
+        <li>
+            <a href="http://admin.yd-park.com:8090" target="_blank" title="易的管理平台">易的管理平台</a>
+        </li>
+    
+        <li>
+            <a href="http://admin.yd-park.com:8092" target="_blank" title="易的数据大屏">易的数据大屏</a>
+        </li>
+    
+        <li>
+            <a href="https://www.baidu.com" target="_blank" title="百度搜索">百度</a>
+        </li>
+    
+        <li>
+            <a href="https://cn.bing.com/" target="_blank" title="必应搜索">必应</a>
+        </li>
+    
+</ul>
+    </section>
+    
+</aside>
+<!-- / 侧栏部分 -->
+    </div>
+
+    <!-- 博客底部 -->
+    <footer class="footer">
+    &copy;
+    
+        2016-2019
+    A
+
+    <a href="/">lanJiang Thank You</a>
+</footer>
+<div class="back-to-top" id="JELON__backToTop" title="返回顶部">返回顶部</div>
+
+    <!--博客js脚本 -->
+    <!-- 这里放网站js脚本 -->
+<script src="/js/main.js"></script>
+</body>
+</html>
