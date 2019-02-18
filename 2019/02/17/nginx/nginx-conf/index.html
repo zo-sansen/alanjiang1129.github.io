@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8">
+    <meta name="baidu-site-verification" content="dIcXMeY8Ya">
+    
+    <title>nginx-conf配置 | 来杯coffee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta name="keywords" content="alanJiang, 前端, Web, 江鹏, 后端开发, app, 小程序">
+    <meta name="description" content="alanJiang个人前端小站">
+
+    
+    <link rel="alternative" href="/atom.xml" title="来杯coffee" type="application/atom+xml">
+    
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <!--[if lt IE 9]>
+    <script src="/js/html5.js"></script>
+    <![endif]-->
+    
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?fd459238242776d173cdc64918fb32f2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</head>
+</html>
+<body class="home">
+    <!--[if lt IE 9]>
+    <div class="browsehappy">
+        当前网页 <strong>不支持</strong>
+        你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>.
+    </div>
+    <![endif]-->
+
+    <!-- 博客头部 -->
+    <header class="header">
+    <section class="container header-main">
+        <div class="logo">
+            <a href="/">
+                <div class="cover">
+                    <span class="name">来杯coffee</span>
+                    <span class="description">alanJiang的个人博客网站</span>
+                </div>
+            </a>
+        </div>
+        <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
+        <ul class="menu hidden" id="JELON__menu">
+            
+            <li rel="/2019/02/17/nginx/nginx-conf/index.html" class="item ">
+                <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
+            </li>
+            
+            <li rel="/2019/02/17/nginx/nginx-conf/index.html" class="item ">
+                <a href="/lab/" title="实验室" class="icon-lab">&nbsp;实验室</a>
+            </li>
+            
+            <li rel="/2019/02/17/nginx/nginx-conf/index.html" class="item ">
+                <a href="/cml/" title="滴滴chameleon" class="icon-lab">&nbsp;滴滴chameleon</a>
+            </li>
+            
+            <li rel="/2019/02/17/nginx/nginx-conf/index.html" class="item ">
+                <a href="/about/" title="关于我" class="icon-about">&nbsp;关于我</a>
+            </li>
+            
+            <li rel="/2019/02/17/nginx/nginx-conf/index.html" class="item ">
+                <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
+            </li>
+            
+        </ul>
+        <div class="profile clearfix">
+            <div class="feeds fl">
+                
+                
+                <p class="links">
+                    
+                        <a href="https://github.com/alanjiang1129" target="_blank">Github</a>
+                        |
+                    
+                        <a href="https://www.jianshu.com/u/23da71227054" target="_blank">简书</a>
+                        
+                    
+                </p>
+                <p class="sns">
+                    
+                        <a href="https://weibo.com/5533052073/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo" class="sinaweibo" target="_blank"><b>■</b> 新浪微博</a>
+                    
+                        <a href="/qq" class="qq" target="_blank"><b>■</b> QQ</a>
+                    
+                        <a href="https://i.csdn.net/#/uc/profile" class="csdn" target="_blank"><b>■</b> CSDN</a>
+                    
+                    <!--<a href="javascript: void(0);" class="wechat">-->
+                        <!--<b>■</b>-->
+                        <!--公众号-->
+                        <!--<span class="popover">-->
+                            <!--<img src="/img/wechat_mp.jpg" width="120" height="120" alt="我的微信订阅号">-->
+                            <!--<i class="arrow"></i>-->
+                        <!--</span>-->
+                    <!--</a>-->
+                </p>
+                
+            </div>
+            <div class="avatar fr">
+                <img src="/assets/tx.jpg" alt="avatar" title="Jelon">
+            </div>
+        </div>
+    </section>
+</header>
+
+
+    <!-- 博客正文 -->
+    <div class="container body clearfix">
+        <section class="content">
+            <div class="content-main widget">
+                <!-- 文章页 -->
+<!-- 文章 -->
+<article class="post article">
+    <header class="text-center">
+        <h3 class="post-title"><span>nginx-conf配置</span></h3>
+    </header>
+    <p class="post-meta text-center">
+        alanJiang 发表于
+        <time datetime="2019-02-16T16:00:00.000Z">2019-02-17</time>
+    </p>
+    <div class="post-content">
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Nginx配置文件主要分成四部分</p>
+<ol>
+<li>main：全局配置</li>
+<li>server：主机配置</li>
+<li>upstream：上游服务器设置，主要为反向代理、负载均衡相关配置</li>
+<li>location：URL匹配特定位置后的设置</li>
+</ol>
+<p class="pp">server继承main，location继承server；upstream既不会继承指令也不会被继承。它有自己的特殊指令，不需要在其他地方的应用</p>
+
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h3 id="1-main全局配置"><a href="#1-main全局配置" class="headerlink" title="1.main全局配置"></a>1.main全局配置</h3><h4 id="直接写在根"><a href="#直接写在根" class="headerlink" title="直接写在根"></a>直接写在根</h4><ul>
+<li><tt>woker_processes 2</tt>：设置cpu使用使用数量</li>
+<li><tt>worker_cpu_affinity</tt>：在高并发情况下，通过设置cpu粘性来降低由于多CPU核切换造成的寄存器等现场重建带来的性能损耗<br>如<aaa>worker_cpu_affinity 0001 0010 0100 1000</aaa>(四核)</li>
+<li><tt>worker_rlimit_nofile 10240</tt>：写在main部分。默认是没有设置，可以限制为操作系统最大的限制65535。</li>
+</ul>
+<h4 id="events模块"><a href="#events模块" class="headerlink" title="events模块"></a>events模块</h4><ul>
+<li><tt>worker_connections 2048</tt>：每一个worker进程能并发处理（发起）的最大连接数（包含与客户端或后端被代理服务器间等所有连接数）<br>  nginx作为反向代理服务器计算公式 <aaa>最大连接数 = worker_processes * worker_connections/4</aaa> 所以这里客户端最大连接数是1024,设置不能超过<aaa>worker_rlimit_nofile</aaa><br>  当nginx作为http服务器时，计算公式里面是除以2。</li>
+<li><tt>use epoll</tt>：<br>  Linux操作系统下，nginx默认使用epoll事件模型，得益于此，nginx在Linux操作系统下效率相当高。<br>  OpenBSD或FreeBSD操作系统上采用类似于epoll的高效事件模型kqueue。<br>  在操作系统不支持这些高效模型时才使用select。</li>
+</ul>
+<h3 id="2-http服务器模块"><a href="#2-http服务器模块" class="headerlink" title="2.http服务器模块"></a>2.http服务器模块</h3><ul>
+<li><tt>sendfile on</tt>：开启高效文件传输模式，sendfile指令指定nginx是否调用sendfile函数来输出文件，减少用户空间到内核空间的上下文切换。对于普通应用设为 on，如果用来进行下载等应用磁盘IO重负载应用，可设置为off，以平衡磁盘与网络I/O处理速度，降低系统的负载。</li>
+<li><tt>keepalive_timeout 65</tt>：长连接超时时间，单位是秒，这个参数很敏感，涉及浏览器的种类、后端服务器的超时设置、操作系统的设置，可以另外起一片文章了。长连接请求大量小文件的时候，可以减少重建连接的开销，但假如有大文件上传，65s内没上传完成会导致失败。如果设置时间过长，用户又多，长时间保持连接会占用大量资源。</li>
+<li><tt>send_timeout</tt>：用于指定响应客户端的超时时间。这个超时仅限于两个连接活动之间的时间，如果超过这个时间，客户端没有任何活动，Nginx将会关闭连接。</li>
+<li><tt>client_max_body_size 10m</tt>：允许客户端请求的最大单文件字节数。如果有上传较大文件，请设置它的限制值</li>
+<li><tt>client_body_buffer_size 128k</tt>：缓冲区代理缓冲用户端请求的最大字节数</li>
+<li><tt>default_type</tt>：default_type  application/octet-stream;</li>
+<li><tt>test</tt>：<h4 id="模块http-proxy（这个模块实现的是nginx作为反向代理服务器的功能，包括缓存功能）【设置直接写在http大括号根目录】："><a href="#模块http-proxy（这个模块实现的是nginx作为反向代理服务器的功能，包括缓存功能）【设置直接写在http大括号根目录】：" class="headerlink" title="模块http_proxy（这个模块实现的是nginx作为反向代理服务器的功能，包括缓存功能）【设置直接写在http大括号根目录】："></a>模块http_proxy（这个模块实现的是nginx作为反向代理服务器的功能，包括缓存功能）【设置直接写在http大括号根目录】：</h4></li>
+<li><tt>proxy_connect_timeout 60</tt>：nginx跟后端服务器连接超时时间(代理连接超时)</li>
+<li><tt>proxy_read_timeout 60</tt>：连接成功后，与后端服务器两个成功的响应操作之间超时时间(代理接收超时)</li>
+<li><tt>proxy_buffer_size 4k</tt>：设置代理服务器（nginx）从后端realserver读取并保存用户头信息的缓冲区大小，默认与proxy_buffers大小相同，其实可以将这个指令值设的小一点</li>
+<li><tt>proxy_buffers 4 32k</tt>：proxy_buffers缓冲区，nginx针对单个连接缓存来自后端realserver的响应，网页平均在32k以下的话，这样设置</li>
+<li><tt>proxy_busy_buffers_size 64k</tt>：高负荷下缓冲大小（proxy_buffers*2）</li>
+<li><tt>proxy_max_temp_file_size</tt>：当proxy_buffers放不下后端服务器的响应内容时，会将一部分保存到硬盘的临时文件中，这个值用来设置最大临时文件大小，默认1024M，它与proxy_cache没有关系。大于这个值，将从upstream服务器传回。设置为0禁用。</li>
+<li><tt>proxy_temp_file_write_size 64k</tt>：当缓存被代理的服务器响应到临时文件时，这个选项限制每次写临时文件的大小。<aaa>proxy_temp_path</aaa>：（可以在编译的时候）指定写到哪那个目录。<h4 id="模块http-gzip"><a href="#模块http-gzip" class="headerlink" title="模块http_gzip"></a>模块http_gzip</h4></li>
+<li><tt>gzip on</tt>：开启gzip压缩输出，减少网络传输。</li>
+<li><tt>gzip_min_length 1k</tt>：设置允许压缩的页面最小字节数，页面字节数从header头得content-length中进行获取。默认值是20。建议设置成大于1k的字节数，小于1k可能会越压越大。</li>
+<li><tt>gzip_buffers 4 16k</tt>：设置系统获取几个单位的缓存用于存储gzip的压缩结果数据流。4 16k代表以16k为单位，安装原始数据大小以16k为单位的4倍申请内存。</li>
+<li><tt>gzip_http_version 1.0</tt>： 用于识别 http 协议的版本，早期的浏览器不支持 Gzip 压缩，用户就会看到乱码，所以为了支持前期版本加上了这个选项，如果你用了 Nginx 的反向代理并期望也启用 Gzip 压缩的话，由于末端通信是 http/1.0，故请设置为 1.0。</li>
+<li><tt>gzip_comp_level 6</tt>：gzip压缩比，1压缩比最小处理速度最快，9压缩比最大但处理速度最慢(传输快但比较消耗cpu)</li>
+<li><tt>gzip_types</tt>：匹配mime类型进行压缩，无论是否指定,”text/html”类型总是会被压缩的。举例：<aaa>gzip_types text/html text/plain text/css</aaa></li>
+<li><tt>gzip_vary on</tt>：和http头有关系，会在响应头加个 Vary: Accept-Encoding ，可以让前端的缓存服务器缓存经过gzip压缩的页面，例如，用Squid缓存经过Nginx压缩的数据。</li>
+</ul>
+<h4 id="server虚拟主机"><a href="#server虚拟主机" class="headerlink" title="server虚拟主机"></a>server虚拟主机</h4><p>http服务上支持若干虚拟主机，每个server通过监听地址或端口来区分。</p>
+<ul>
+<li><tt>listen</tt>：监听端口，默认80，小于1024的要以root启动。可以为listen *:80、listen 127.0.0.1:80等形式。</li>
+<li><tt>server_name</tt>：服务器名，如localhost、<a href="http://www.example.com，可以通过正则匹配。" target="_blank" rel="noopener">www.example.com，可以通过正则匹配。</a><h5 id="1-模块http-stream（负载均衡）"><a href="#1-模块http-stream（负载均衡）" class="headerlink" title="1.模块http_stream（负载均衡）"></a>1.模块http_stream（负载均衡）</h5>这个模块通过一个简单的调度算法来实现客户端IP到后端服务器的负载均衡，upstream后接负载均衡器的名字，后端realserver以 host:port options; 方式组织在 {} 中。如果后端被代理的只有一台，也可以直接写在 proxy_pass 。<br>例如：<br>upstream分配策略全解：</li>
+<li><p>weight（权重）：指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。如下所示，10.0.0.88的访问比率要比10.0.0.77的访问比率高一倍。</p>
+<figure class="highlight plain"><figcaption><span>linuxidc&#123; </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">      server 10.0.0.77 weight=5; </span><br><span class="line">      server 10.0.0.88 weight=10; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ip_hash（访问ip）：每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream favresin&#123; </span><br><span class="line">      ip_hash; </span><br><span class="line">      server 10.0.0.10:8080; </span><br><span class="line">      server 10.0.0.11:8080; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>fair（第三方）：按后端服务器的响应时间来分配请求，响应时间短的优先分配。与weight分配策略类似。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream favresin&#123;      </span><br><span class="line">      server 10.0.0.10:8080; </span><br><span class="line">      server 10.0.0.11:8080; </span><br><span class="line">      fair; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>url_hash（第三方）：按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。<br>  注意：在upstream中加入hash语句，server语句中不能写入weight等其他的参数，hash_method是使用的hash算法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> upstream resinserver&#123; </span><br><span class="line">      server 10.0.0.10:7777; </span><br><span class="line">      server 10.0.0.11:8888; </span><br><span class="line">      hash $request_uri; </span><br><span class="line">      hash_method crc32; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><t>其他设置状态项</t></p>
+<blockquote>
+<ul>
+<li>down：表示单前的server暂时不参与负载.</li>
+<li>weight：表示单前的server暂时不参与负载.</li>
+<li>max_fails ：允许请求失败的次数默认为1.当超过最大次数时，返回proxy_next_upstream 模块定义的错误.</li>
+<li>fail_timeout  ：max_fails次失败后，暂停的时间。</li>
+<li>backup  ：其它所有的非backup机器down或者忙的时候，请求backup机器。所以这台机器压力会最轻。</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">将server节点下的location节点中的proxy_pass配置为：http:// + upstream名称，即“</span><br><span class="line">http://backend”.</span><br><span class="line"></span><br><span class="line">location / &#123; </span><br><span class="line">            root  html; </span><br><span class="line">            index  index.html index.htm; </span><br><span class="line">            proxy_pass http://backend; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="2-location（http服务中，某些特定的URL对应的一系列配置项。）"><a href="#2-location（http服务中，某些特定的URL对应的一系列配置项。）" class="headerlink" title="2.location（http服务中，某些特定的URL对应的一系列配置项。）"></a>2.location（http服务中，某些特定的URL对应的一系列配置项。）</h5><ul>
+<li><t>root /var/www/html</t>：定义服务器的默认网站根目录位置。如果locationURL匹配的是子目录或文件，root没什么作用，<br>  一般放在server指令里面或/下。server下的和location下的不会重复,常用于静态文件。</li>
+<li><tt>index index.jsp index.html index.htm</tt>：定义路径下默认访问的文件名，一般跟着root放</li>
+<li><tt>proxy_pass http:/backend</tt>：请求转向backend定义的服务器列表，即反向代理，对应upstream负载均衡器。也可以<aaa>proxy_pass  <a href="http://ip:port" target="_blank" rel="noopener">http://ip:port</a></aaa></li>
+<li><tt>proxy_redirect off;</tt><br><tt>proxy_set_header Host $host;</tt><br><tt>proxy_set_header X-Real-IP $remote_addr;</tt><br><tt>proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</tt><br>  这四个暂且这样设，如果深究的话，每一个都涉及到很复杂的内容，也将通过另一篇文章来解读。</li>
+</ul>
+<ul>
+<li><tt>test</tt>：</li>
+<li><tt>test</tt>：</li>
+</ul>
+<hr>
+<p><a href="https://segmentfault.com/a/1190000002797601#articleHeader5" target="_blank" rel="noopener">推荐地址1</a><br><a href="https://www.jianshu.com/p/a7c86efe1987" target="_blank" rel="noopener">推荐地址2</a><br><a href="https://www.zybuluo.com/phper/note/89391" target="_blank" rel="noopener">推荐地址3</a><br>
+<style>
+.pp{
+    color: red;
+    font-style: oblique;
+    font-weight: bold;
+    margin: 10px 10px;
+}
+aaa {
+     padding: 2px 4px;
+     font-size: 90%;
+     color: #c7254e;
+     background-color: #f9f2f4;
+     border-radius: 4px;
+ }
+ 
+ tt {
+      padding: 2px 4px;
+      font-size: 14px;
+     color: #2087b9;
+     font-weight: bold;
+     background-color: #51cc8730;
+      border-radius: 4px;
+  }
+</style>
+</p>
+
+    </div>
+    <p class="post-meta">
+        <span class="post-cat">分类：
+            <a class="cat-link" href="/categories/Nginx/">Nginx</a>
+        </span>
+        <span class="post-tags">
+            标签：
+            
+    
+        <a href="/tags/Nginx/" title="Nginx">Nginx</a>
+    
+
+        </span>
+    </p>
+</article>
+<!-- 分享按钮 -->
+
+  <div class="article-share clearfix text-center">
+    <div class="share-area">
+      <span class="share-txt">分享到：</span>
+      <a href="javascript: window.open('http://service.weibo.com/share/share.php?url=' + encodeURIComponent(location.href) + '&title=' + document.title + '&language=zh_cn');" class="share-icon weibo"></a>
+      <a href="javascript: alert('请复制链接到微信并发送');" class="share-icon wechat"></a>
+      <a href="javascript: window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + encodeURIComponent(location.href) + '&title=' + document.title);" class="share-icon qqzone"></a>
+      <a href="javascript: window.open('http://connect.qq.com/widget/shareqq/index.html?url=' + encodeURIComponent(location.href) + '&desc=Jelon个人博客&title=' + document.title + '&callback=' + encodeURIComponent(location.href));" class="share-icon qq"></a>
+      <a href="javascript: window.open('http://shuo.douban.com/!service/share?href=' + encodeURIComponent(location.href) + '&name=' + document.title + '&text=' + document.title);" class="share-icon douban"></a>
+    </div>
+  </div>
+
+
+<!-- 上一篇/下一篇 -->
+
+<div class="article-nav clearfix">
+    
+    <span class="prev fl">
+        上一篇<br>
+        <a href="/2019/02/18/nginx/nginx-loaction正则写法/">
+            
+                nginx-loaction正则写法
+            
+        </a>
+    </span>
+    
+
+    
+    <span class="next fr">
+        下一篇<br>
+        <a href="/2019/02/17/docker/docker基本/">
+            
+                docker下载安装
+            
+        </a>
+    </span>
+    
+</div>
+
+<!-- 文章评论 -->
+
+  <script src="/js/comment.js"></script>
+  <div id="comments" class="comment">
+    <!--
+    <div class="sign-bar">
+      GitHub 已登录!
+      <span class="sign-link">登出</span>
+    </div>
+    <section class="box">
+      <div class="com-avatar"><img src="/img/jelon.jpg" alt="avatar"></div>
+      <div class="com-text">
+        <div class="main">
+          <textarea class="text-area-edited show" placeholder="欢迎评论！"></textarea>
+          <div class="text-area-preview"></div>
+        </div>
+        <div class="switch">
+          <div class="switch-item on">编辑</div>
+          <div class="switch-item">预览</div>
+        </div>
+        <div class="button">提交</div>
+      </div>
+    </section>
+    <section class="tips">注：评论支持 markdown 语法！</section>
+    <section class="list-wrap">
+      <ul class="list">
+        <li>
+          <div class="user-avatar">
+            <a href="/">
+              <img src="/img/jelon.jpg" alt="user-avatar">
+            </a>
+          </div>
+          <div class="user-comment">
+            <div class="user-comment-header">
+              <span class="post-name">张德龙</span>
+              <span class="post-time">2017年12月12日</span>
+              <span class="like liked">已赞</span>
+              <span class="like-num">2</span>
+            </div>
+            <div class="user-comment-body">333333</div>
+          </div>
+        </li>
+        <li>
+          <div class="user-avatar">
+            <a href="/">
+              <img src="/img/jelon.jpg" alt="user-avatar">
+            </a>
+          </div>
+          <div class="user-comment">
+            <div class="user-comment-header">
+              <span class="post-name">刘德华</span>
+              <span class="post-time">2017年12月12日</span>
+              <span class="like">点赞</span>
+              <span class="like-num">2</span>
+            </div>
+            <div class="user-comment-body">vvvvv</div>
+          </div>
+        </li>
+      </ul>
+      <div class="page-nav">
+        <a href="javascript: void(0);" class="item">1</a>
+        <a href="javascript: void(0);" class="item">2</a>
+        <a href="javascript: void(0);" class="item current">3</a>
+      </div>
+    </section>
+    -->
+  </div>
+  <script>
+  JELON.Comment({
+    container: 'comments',
+    label: 'nginx/nginx-conf' || '2019/02/17/nginx/nginx-conf/',
+    owner: 'alanjiang1129',
+    repo: 'jp_blog',
+    clientId: 'fc95a747f032d6f9c498',
+    clientSecret: '3fadb7a6d4d60265e5939a23e145fb860fddc7ea'
+  });
+  </script>
+
+
+            </div>
+
+        </section>
+        <!-- 侧栏部分 -->
+<aside class="sidebar">
+    <section class="widget">
+        <h3 class="widget-hd"><strong>文章分类</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+    <li>
+        <a href="/categories/GitHub/">GitHub</a>
+        <span class="badge">(2)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/SpringBoot/">SpringBoot</a>
+        <span class="badge">(2)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/个博搭建/">个博搭建</a>
+        <span class="badge">(8)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/Docker/">Docker</a>
+        <span class="badge">(3)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/开源项目/">开源项目</a>
+        <span class="badge">(1)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/学习总结/">学习总结</a>
+        <span class="badge">(1)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/IDEA/">IDEA</a>
+        <span class="badge">(2)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/Git/">Git</a>
+        <span class="badge">(1)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/Nginx/">Nginx</a>
+        <span class="badge">(3)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/VUE/">VUE</a>
+        <span class="badge">(2)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/JS/">JS</a>
+        <span class="badge">(1)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/Node/">Node</a>
+        <span class="badge">(1)</span>
+    </li>
+    
+</ul>
+    </section>
+
+    
+    <section class="widget">
+        <h3 class="widget-hd"><strong>热门标签</strong></h3>
+        <!-- 文章标签 -->
+<div class="widget-bd tag-wrap">
+  
+    <a class="tag-item" href="/tags/GitHub/" title="GitHub">GitHub (2)</a>
+  
+    <a class="tag-item" href="/tags/HEXO-GitHub个博/" title="HEXO_GitHub个博">HEXO_GitHub个博 (6)</a>
+  
+    <a class="tag-item" href="/tags/静态文件托管/" title="静态文件托管">静态文件托管 (1)</a>
+  
+    <a class="tag-item" href="/tags/SpringBoot/" title="SpringBoot">SpringBoot (2)</a>
+  
+    <a class="tag-item" href="/tags/HEXO/" title="HEXO">HEXO (7)</a>
+  
+    <a class="tag-item" href="/tags/MarkDown/" title="MarkDown">MarkDown (1)</a>
+  
+    <a class="tag-item" href="/tags/Docker/" title="Docker">Docker (3)</a>
+  
+    <a class="tag-item" href="/tags/GitLab/" title="GitLab">GitLab (1)</a>
+  
+    <a class="tag-item" href="/tags/vue/" title="vue">vue (1)</a>
+  
+    <a class="tag-item" href="/tags/java/" title="java">java (1)</a>
+  
+    <a class="tag-item" href="/tags/学习总结/" title="学习总结">学习总结 (1)</a>
+  
+    <a class="tag-item" href="/tags/IDEA/" title="IDEA">IDEA (2)</a>
+  
+    <a class="tag-item" href="/tags/Nginx/" title="Nginx">Nginx (4)</a>
+  
+    <a class="tag-item" href="/tags/Git/" title="Git">Git (1)</a>
+  
+    <a class="tag-item" href="/tags/VUE/" title="VUE">VUE (2)</a>
+  
+    <a class="tag-item" href="/tags/JS/" title="JS">JS (1)</a>
+  
+    <a class="tag-item" href="/tags/JS数据类型/" title="JS数据类型">JS数据类型 (1)</a>
+  
+    <a class="tag-item" href="/tags/Yarn/" title="Yarn">Yarn (1)</a>
+  
+    <a class="tag-item" href="/tags/Node/" title="Node">Node (1)</a>
+  
+</div>
+    </section>
+    
+
+    
+
+    
+    <!-- 友情链接 -->
+    <section class="widget">
+        <h3 class="widget-hd"><strong>友情链接</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+        <li>
+            <a href="http://admin.yd-park.com" target="_blank" title="易的官网">易的官网</a>
+        </li>
+    
+        <li>
+            <a href="http://admin.yd-park.com:8090" target="_blank" title="易的管理平台">易的管理平台</a>
+        </li>
+    
+        <li>
+            <a href="http://admin.yd-park.com:8092" target="_blank" title="易的数据大屏">易的数据大屏</a>
+        </li>
+    
+        <li>
+            <a href="https://www.baidu.com" target="_blank" title="百度搜索">百度</a>
+        </li>
+    
+        <li>
+            <a href="https://cn.bing.com/" target="_blank" title="必应搜索">必应</a>
+        </li>
+    
+</ul>
+    </section>
+    
+</aside>
+<!-- / 侧栏部分 -->
+    </div>
+
+    <!-- 博客底部 -->
+    <footer class="footer">
+    &copy;
+    
+        2016-2019
+    A
+
+    <a href="/">lanJiang Thank You</a>
+</footer>
+<div class="back-to-top" id="JELON__backToTop" title="返回顶部">返回顶部</div>
+
+    <!--博客js脚本 -->
+    <!-- 这里放网站js脚本 -->
+<script src="/js/main.js"></script>
+</body>
+</html>
